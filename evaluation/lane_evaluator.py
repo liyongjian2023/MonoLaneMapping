@@ -135,6 +135,9 @@ class LaneEval(object):
                 lanes3d_gt.append(Lane3D(xyz, category))
         lanes3d_pred = []
         for lane, category in zip(pred_lanes, pred_category):
+            if lane.shape[0] == 0:
+                print("ERROR: lane is empty. continue")
+                continue
             xyz = prune_3d_lane_by_range(lane, (self.x_min - 10, self.x_max + 10, self.y_min, self.y_max + 20))
             if xyz.shape[0] > 0:
                 xyz = fitting(xyz)
